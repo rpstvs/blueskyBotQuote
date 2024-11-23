@@ -1,0 +1,10 @@
+{
+  "devDependencies": {
+    "typescript": "^5.6.3"
+  },
+  "dependencies": {
+    "@atproto/api": "^0.13.16",
+    "dotenv": "^16.4.5",
+    "ts-node": "^10.9.2"
+  }
+}
