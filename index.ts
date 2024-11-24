@@ -1,7 +1,7 @@
-import { BskyAgent } from "@atproto/api";
+import { AppBskyRichtextFacet, BskyAgent } from "@atproto/api";
 import * as dotenv from "dotenv";
 import * as process from "process";
-import { fetchQuote } from "./fetchQuote";
+import { getPayload } from "./fetchQuote";
 
 dotenv.config();
 
@@ -15,10 +15,24 @@ async function main() {
     password: process.env.BLUESKY_PASSWORD!,
   });
 
-  const data = await fetchQuote();
+  const data = await getPayload();
+  let start = data.indexOf("#");
   await agent.post({
-    text: `${data?.quote}
-    ${data?.author} `,
+    text: data,
+    facets: [
+      {
+        index: {
+          byteStart: start,
+          byteEnd: data.length - 1,
+        },
+        features: [
+          {
+            $type: "app.bsky.richtext.facet#tag",
+            tag: data.replace(/^#/, ""),
+          },
+        ],
+      },
+    ],
   });
 }
 

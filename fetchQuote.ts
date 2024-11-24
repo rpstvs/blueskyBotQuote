@@ -15,7 +15,7 @@ export async function fetchQuote() {
     const Resp: Quote = {
       quote: data.quote,
       author: data.author,
-      book: data.bookm,
+      book: data.book,
     };
     return Resp;
   } catch (error) {
@@ -23,4 +23,19 @@ export async function fetchQuote() {
   }
 }
 
-function buildPayload(resp: Quote) {}
+export async function getPayload() {
+  const data = await fetchQuote();
+  let payload: string;
+  let tmp = `${data?.quote}
+${data?.author}
+
+#motivation #stoicism #philosophy`;
+
+  if (tmp.length > 300) {
+    getPayload();
+  }
+
+  payload = tmp;
+
+  return payload;
+}
